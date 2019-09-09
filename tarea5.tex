@@ -39,7 +39,7 @@
                     \[
                         \texttt{or} \equiv 
                         \lambda p. \lambda q. p T q
-                        = \lambda p. \lambda q. p (\lambda x. \lambda y. x) q 
+                        \equiv \lambda p. \lambda q. p (\lambda x. \lambda y. x) q 
                     \]
                 }
                 \item {
@@ -48,7 +48,7 @@
                     \[
                         \texttt{xor} \equiv 
                         \lambda p. \lambda q. p (q F T) (q T F)
-                        = \lambda p. \lambda q. p 
+                        \equiv \lambda p. \lambda q. p 
                         (q (\lambda x. \lambda y. y) (\lambda x. \lambda y. x)) 
                         (q (\lambda x. \lambda y. x) (\lambda x. \lambda y. y))
                     \]
@@ -68,29 +68,29 @@
                                 \centering
                                 \begin{tabular}{|l|l|l|}
                                     \hline
-                                    $P \backslash Q$ & $F$ & $T$ \\ \hline
-                                    $F$              & $F$ & $T$ \\ \hline
-                                    $T$              & $T$ & $T$ \\ \hline
+                                    $\lor$ & $F$ & $T$ \\ \hline
+                                    $F$    & $F$ & $T$ \\ \hline
+                                    $T$    & $T$ & $T$ \\ \hline
                                 \end{tabular}
                                 \caption{Tabla de verdad de $p \lor q$}
                                 \label{tab:truth_or}
                             \end{table}
 
                             Entonces, primero supongamos que 
-                            $P = F$.
+                            $P \equiv F$.
 
                             Entonces, 
                             \begin{align*}
-                                \texttt{or} F Q &= F T Q
-                                = (\lambda x. \lambda y. y)
+                                \texttt{or} F Q &\equiv F T Q
+                                \equiv (\lambda x. \lambda y. y)
                                 (\lambda x. \lambda y. x)
                                 Q \\
-                                &= (\lambda y. y)
+                                &\equiv (\lambda y. y)
                                 [x:=\lambda x. \lambda y. x]
                                 Q
                                 =(\lambda y. y[x:=\lambda x. \lambda y. x])
                                 (\lambda x. \lambda y. y) Q \\
-                                &= (\lambda y. y) Q = y[y := Q] = Q
+                                &= (\lambda y. y) Q \equiv y[y := Q] = Q
                             \end{align*}
 
                             Por lo que $\texttt{or}FF = F$ y $\texttt{or}FT = T$
@@ -101,16 +101,16 @@
 
                             Entonces
                             \begin{align*}
-                                \texttt{or} T Q &= T T Q
-                                = (\lambda x. \lambda y. x)
+                                \texttt{or} T Q &\equiv T T Q
+                                \equiv (\lambda x. \lambda y. x)
                                 (\lambda w. \lambda z. w)
                                 Q \\
-                                &= (\lambda y. x)
+                                &\equiv (\lambda y. x)
                                 [x:=\lambda w. \lambda z. w]
                                 Q
                                 =(\lambda y. \lambda w. \lambda z. w) Q \\
-                                &= (\lambda w. \lambda z. w) [y := Q] 
-                                = \lambda w. \lambda z. w = T
+                                &\equiv (\lambda w. \lambda z. w) [y := Q] 
+                                = \lambda w. \lambda z. w \equiv T
                             \end{align*}
 
                             Por lo que $\texttt{or}TT = T$ y $\texttt{or}TT = T$,
@@ -124,9 +124,21 @@
 
                         }
                         \item {
-                            $p \oplus q$
+                            $\texttt{xor}$
 
                             La tabla de verdad es 
+
+                            \begin{table}[H]
+                                \centering
+                                \begin{tabular}{|l|l|l|}
+                                    \hline
+                                    $\oplus$ & $F$ & $T$ \\ \hline
+                                    $F$      & $F$ & $T$ \\ \hline
+                                    $T$      & $T$ & $F$ \\ \hline
+                                \end{tabular}
+                                \caption{Tabla de verdad de $p \oplus q$}
+                                \label{tab:truth_or}
+                            \end{table}
                         }
                     \end{itemize}
                 }
@@ -134,7 +146,7 @@
         }
 
         \item {
-            Encientre la forma normal de la siguiente expresión $e$. Se debe
+            Encuentre la forma normal de la siguiente expresión $e$. Se debe
             mostrar todos los pasos de la $\beta-$reducción, indicando en cada
             paso el redex que se va a reducir.
 
@@ -143,6 +155,42 @@
                 (\lambda s. \lambda t.s)
                 (\lambda u. u) w
             \]
+
+            \begin{align*}
+                e &\equiv (\lambda y. \lambda z.xz(yz))[x:=(\lambda s. \lambda t.s)]
+                (\lambda u. u) w \\
+                &\equiv (\lambda y. (\lambda z.xz(yz))[x:=(\lambda s. \lambda t.s)]
+                (\lambda u. u) w \\
+                &\equiv \lambda y. \lambda z.(xz(yz))[x:=(\lambda s. \lambda t.s)])
+                (\lambda u. u) w \\
+                &\equiv (\lambda y. \lambda z.
+                x[x:=(\lambda s. \lambda t.s)]
+                z[x:=(\lambda s. \lambda t.s)]
+                (yz)[x:=(\lambda s. \lambda t.s)])
+                (\lambda u. u) w \\
+                &\equiv (\lambda y. \lambda z.
+                (\lambda s. \lambda t.s)z(yz))
+                (\lambda u. u) w \\
+                &\equiv (\lambda y. \lambda z.
+                (\lambda t.s)[s := z](yz))
+                (\lambda u. u) w \\
+                &\equiv (\lambda y. \lambda z.
+                \lambda t.(s[s := z])(yz))
+                (\lambda u. u) w \\
+                &\equiv (\lambda y. \lambda z.
+                (\lambda t.z)(yz))
+                (\lambda u. u) w \\
+                &\equiv (\lambda y. \lambda z.
+                (z[t:=yz]))
+                (\lambda u. u) w \\
+                &\equiv (\lambda y. \lambda z.z)
+                (\lambda u. u) w \\
+                &\equiv (\lambda z.z) [y:=\lambda u. u] w \\
+                &\equiv (\lambda z.z[y:=\lambda u. u]) w \\
+                &\equiv (\lambda z.z) w \\
+                &\equiv z [z:=w] \\
+                &\equiv w \\
+            \end{align*}
         }
     \end{enumerate}
 \end{document}
