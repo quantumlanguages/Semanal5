@@ -4,6 +4,12 @@
 % page format
 \usepackage[letterpaper, margin = 1.5cm]{geometry}
 
+% environment placement
+\usepackage{float}
+
+% math things
+\usepackage{amsmath}
+
 % header
 \title{
     Lenguajes de Programación 2020-1 \\
@@ -29,15 +35,100 @@
             \begin{itemize}
                 \item {
                     Implemente la función de disyunción \texttt{or}
+
+                    \[
+                        \texttt{or} \equiv 
+                        \lambda p. \lambda q. p T q
+                        = \lambda p. \lambda q. p (\lambda x. \lambda y. x) q 
+                    \]
                 }
                 \item {
                     Implemente la función de disyunción exclusiva \texttt{xor}
+
+                    \[
+                        \texttt{xor} \equiv 
+                        \lambda p. \lambda q. p (q F T) (q T F)
+                        = \lambda p. \lambda q. p 
+                        (q (\lambda x. \lambda y. y) (\lambda x. \lambda y. x)) 
+                        (q (\lambda x. \lambda y. x) (\lambda x. \lambda y. y))
+                    \]
                 }
                 \item {
                     Muestre que las definiciones son correctas. Esto es que para
                     $b_1, b_2$ boolenanos y \texttt{f} función booleana,
                     \texttt{f} $b_1, b_2$ se recuden de acuerdo a la tabla de
-                    verdad de \texttt{f}. 
+                    verdad de \texttt{f}.
+                    \begin{itemize}
+                        \item {
+                            \texttt{or}
+
+                            La table de verdad es 
+
+                            \begin{table}[H]
+                                \centering
+                                \begin{tabular}{|l|l|l|}
+                                    \hline
+                                    $P \backslash Q$ & $F$ & $T$ \\ \hline
+                                    $F$              & $F$ & $T$ \\ \hline
+                                    $T$              & $T$ & $T$ \\ \hline
+                                \end{tabular}
+                                \caption{Tabla de verdad de $p \lor q$}
+                                \label{tab:truth_or}
+                            \end{table}
+
+                            Entonces, primero supongamos que 
+                            $P = F$.
+
+                            Entonces, 
+                            \begin{align*}
+                                \texttt{or} F Q &= F T Q
+                                = (\lambda x. \lambda y. y)
+                                (\lambda x. \lambda y. x)
+                                Q \\
+                                &= (\lambda y. y)
+                                [x:=\lambda x. \lambda y. x]
+                                Q
+                                =(\lambda y. y[x:=\lambda x. \lambda y. x])
+                                (\lambda x. \lambda y. y) Q \\
+                                &= (\lambda y. y) Q = y[y := Q] = Q
+                            \end{align*}
+
+                            Por lo que $\texttt{or}FF = F$ y $\texttt{or}FT = T$
+                            , lo que corresponde a la primera columna de la
+                            tabla de verdad.
+
+                            En otro caso, tomemos a $P = T$.
+
+                            Entonces
+                            \begin{align*}
+                                \texttt{or} T Q &= T T Q
+                                = (\lambda x. \lambda y. x)
+                                (\lambda w. \lambda z. w)
+                                Q \\
+                                &= (\lambda y. x)
+                                [x:=\lambda w. \lambda z. w]
+                                Q
+                                =(\lambda y. \lambda w. \lambda z. w) Q \\
+                                &= (\lambda w. \lambda z. w) [y := Q] 
+                                = \lambda w. \lambda z. w = T
+                            \end{align*}
+
+                            Por lo que $\texttt{or}TT = T$ y $\texttt{or}TT = T$,
+                            que corresponde con la segunda columna de la tabla
+                            de verdad.
+
+                            Como la función corresponde en todos los casos con
+                            la tabla de verdad, entonces la definición de la 
+                            función es correcta.
+
+
+                        }
+                        \item {
+                            $p \oplus q$
+
+                            La tabla de verdad es 
+                        }
+                    \end{itemize}
                 }
             \end{itemize}
         }
