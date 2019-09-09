@@ -56,8 +56,13 @@
                 \item {
                     Muestre que las definiciones son correctas. Esto es que para
                     $b_1, b_2$ boolenanos y \texttt{f} función booleana,
-                    \texttt{f} $b_1, b_2$ se recuden de acuerdo a la tabla de
+                    \texttt{f} $b_1, b_2$ se reducen de acuerdo a la tabla de
                     verdad de \texttt{f}.
+
+                    Notemos que en todas las apariciones de $T$ y $F$, se puede
+                    suponer que no tiene variables en común con ninguna otra
+                    función en la expresión, pues no están expresada de forma
+                    explícita.
                     \begin{itemize}
                         \item {
                             \texttt{or}
@@ -120,8 +125,6 @@
                             Como la función corresponde en todos los casos con
                             la tabla de verdad, entonces la definición de la 
                             función es correcta.
-
-
                         }
                         \item {
                             $\texttt{xor}$
@@ -137,8 +140,72 @@
                                     $T$      & $T$ & $F$ \\ \hline
                                 \end{tabular}
                                 \caption{Tabla de verdad de $p \oplus q$}
-                                \label{tab:truth_or}
+                                \label{tab:truth_xor}
                             \end{table}
+
+                            Primero, tomemos a $P = T$.
+
+                            \begin{align*}
+                                \texttt{xor} T Q &\equiv T(QFT)(QTF) \\
+                                &\equiv (\lambda x. \lambda y. x) (QFT)(QTF) \\
+                                &\equiv (\lambda y. x)[x := QFT](QTF) \\
+                                &\equiv (\lambda y. QFT)(QTF) \\
+                                &\equiv QFT[y := QTF] \equiv QFT
+                            \end{align*}
+
+                            En otro caso,$P = F$
+
+                            \begin{align*}
+                                \texttt{xor} F Q &\equiv F(QFT)(QTF) \\
+                                &\equiv (\lambda x. \lambda y. y) (QFT)(QTF) \\
+                                &\equiv (\lambda y. y)[x := QFT](QTF) \\
+                                &\equiv (\lambda y. y)(QTF) \\
+                                &\equiv y[y := QTF] \equiv QTF
+                            \end{align*}
+
+                            Sin pérdidad de generalidad, digamos que en ambos
+                            casos la expresión resultante es $QMN$.
+
+                            Luego, supongamos que $Q = T$. 
+
+                            Entonces
+                            \begin{align*}
+                                TMN &\equiv (\lambda x. \lambda y. x) MN \\
+                                &\equiv ((\lambda y. x)[x := M]) N \\
+                                &\equiv (\lambda y. (x[x := M])) N \\
+                                &\equiv (\lambda y. M) N \equiv M[y := N] \\
+                                &\equiv M
+                            \end{align*}
+
+                            Entonces, $P = T \implies M = F$, por lo que
+                            $\texttt{xor} T T = F$, que corresponde con la tabla
+                            de verdad.
+
+                            Por otra parte, $P = F \implies M = T$, por lo que
+                            $\texttt{xor} F T = F$, que corresponde con la tabla
+                            de verdad.
+
+                            Luego, veamos que pasa cuando $Q = F$.
+
+                            \begin{align*}
+                                FMN &\equiv (\lambda x. \lambda y. y) MN \\
+                                &\equiv ((\lambda y. y)[x := M]) N \\
+                                &\equiv (\lambda y. (y[x := M])) N \\
+                                &\equiv (\lambda y. y) N \equiv y[y := N] \\
+                                &\equiv N
+                            \end{align*}
+
+                            Entonces, $P = T \implies N = T$, por lo que
+                            $\texttt{xor} T F = T$, que corresponde con la tabla
+                            de verdad.
+
+                            Por otra parte, $P = F \implies N = F$, por lo que
+                            $\texttt{xor} F F = F$, que corresponde con la tabla
+                            de verdad.
+
+                            Como en todos los casos se obtiene el resultado dado
+                            por la tabla de verdad, entonces la definición de la
+                            función es correcta.
                         }
                     \end{itemize}
                 }
