@@ -1,0 +1,57 @@
+% document type
+\documentclass{article}
+
+% page format
+\usepackage[letterpaper, margin = 1.5cm]{geometry}
+
+% header
+\title{
+    Lenguajes de Programación 2020-1 \\
+    Facultad de Ciencias UNAM \\
+    Ejercicio Semanal 5
+}
+
+\author{
+    Sandra del Mar Soto Corderi \\
+    Edgar Quiroz Castañeda
+}
+
+\date{
+    12 de septiembre de 2019
+}
+
+\begin{document}
+    \maketitle
+    \begin{enumerate}
+        \item {
+            De acuerdo a la representación de lo booleanos en el cálculo lambda,
+            realice lo siguiente
+            \begin{itemize}
+                \item {
+                    Implemente la función de disyunción \texttt{or}
+                }
+                \item {
+                    Implemente la función de disyunción exclusiva \texttt{xor}
+                }
+                \item {
+                    Muestre que las definiciones son correctas. Esto es que para
+                    $b_1, b_2$ boolenanos y \texttt{f} función booleana,
+                    \texttt{f} $b_1, b_2$ se recuden de acuerdo a la tabla de
+                    verdad de \texttt{f}. 
+                }
+            \end{itemize}
+        }
+
+        \item {
+            Encientre la forma normal de la siguiente expresión $e$. Se debe
+            mostrar todos los pasos de la $\beta-$reducción, indicando en cada
+            paso el redex que se va a reducir.
+
+            \[
+                e =_{def} (\lambda x. \lambda y. \lambda z.xz(yz))
+                (\lambda s. \lambda t.s)
+                (\lambda u. u) w
+            \]
+        }
+    \end{enumerate}
+\end{document}
